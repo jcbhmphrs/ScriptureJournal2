@@ -26,23 +26,26 @@ namespace ScriptureJournal2.Pages.Scriptures
         [BindProperty(SupportsGet = true)]
         public string? SearchBook { get; set; }
 
+
+
         [BindProperty(SupportsGet = true)]
         public string? SearchNote { get; set; }
+
+
 
         [BindProperty(SupportsGet = true)]
         public DateTime? SearchDate { get; set; }
 
+
+
         public SelectList? Books { get; set; }
-
-        public SelectList? Notes { get; set; }
-
+       
         public SelectList? Dates { get; set; }
 
 
         public async Task OnGetAsync()
         {
-            IQueryable<string> bookQuery = from s in _context.Scripture orderby s.Book select s.Book;
-            IQueryable<string> noteQuery = from s in _context.Scripture orderby s.Note select s.Note;
+            IQueryable<string> bookQuery = from s in _context.Scripture orderby s.Book select s.Book;           
             IQueryable<DateTime> dateQuery = from s in _context.Scripture orderby s.DateAdded.Date select s.DateAdded.Date;
             var scriptures = from m in _context.Scripture select m;
 
@@ -59,8 +62,7 @@ namespace ScriptureJournal2.Pages.Scriptures
                 scriptures = scriptures.Where(s => s.DateAdded == SearchDate);
             }
 
-            Books = new SelectList(await bookQuery.Distinct().ToListAsync());
-            Notes = new SelectList(await noteQuery.Distinct().ToListAsync());
+            Books = new SelectList(await bookQuery.Distinct().ToListAsync());           
             Dates = new SelectList(await dateQuery.Distinct().ToListAsync());
             Scripture = await scriptures.ToListAsync();
         }
